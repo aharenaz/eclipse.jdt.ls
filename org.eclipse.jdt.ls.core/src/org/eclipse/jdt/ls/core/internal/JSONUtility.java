@@ -61,6 +61,12 @@ public class JSONUtility {
 		if (object instanceof String json) {
 			return gson.fromJson(json, clazz);
 		}
-		return null;
+
+		JsonElement json = gson.toJsonTree(object).getAsJsonObject();
+		try {
+			return gson.fromJson(json, clazz);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
