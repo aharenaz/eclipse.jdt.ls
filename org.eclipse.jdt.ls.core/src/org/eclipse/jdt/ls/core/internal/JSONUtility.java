@@ -14,6 +14,7 @@
 package org.eclipse.jdt.ls.core.internal;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.lsp4j.jsonrpc.json.MessageJsonHandler;
 
@@ -61,12 +62,9 @@ public class JSONUtility {
 		if (object instanceof String json) {
 			return gson.fromJson(json, clazz);
 		}
-
-		JsonElement json = gson.toJsonTree(object).getAsJsonObject();
-		try {
-			return gson.fromJson(json, clazz);
-		} catch (Exception e) {
-			return null;
+		if (object instanceof Map map) {
+			return gson.fromJson(gson.toJsonTree(map), clazz);
 		}
+		return null;
 	}
 }
